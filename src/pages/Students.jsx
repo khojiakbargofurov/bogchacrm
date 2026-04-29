@@ -299,6 +299,23 @@ export default function Students() {
 
   useEffect(() => { fetchData(); }, []);
 
+  const openAddModal = () => {
+    setEditingStudent(null);
+    setFormData({ fullname: '', birthdate: '', group_id: '', parent_name: '' });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (student) => {
+    setEditingStudent(student.id);
+    setFormData({
+      fullname: student.fullname || '',
+      birthdate: student.birthdate || '',
+      group_id: student.group_id || '',
+      parent_name: student.parent_name || ''
+    });
+    setIsModalOpen(true);
+  };
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -544,7 +561,7 @@ export default function Students() {
                         >
                           <Eye className="h-4 w-4" />
                         </button>
-                        {user.role !== 'teacher' && (
+                        {!isTeacher && (
                           <button
                             onClick={() => openEditModal(student)}
                             className="p-2 hover:bg-blue-100 rounded-md text-muted-foreground hover:text-blue-600 transition-colors"
